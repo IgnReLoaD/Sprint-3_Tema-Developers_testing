@@ -10,5 +10,9 @@
  * '/calendar' => 'calendar#index'
  */
 $routes = array(
-	'/test' => 'test#index'
+	'/test' => 'TestController::IndexAction'
 );
+
+
+include('../config/routes.php');
+$routes->execute('/test');
