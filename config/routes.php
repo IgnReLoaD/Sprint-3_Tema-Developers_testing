@@ -15,4 +15,4 @@ $routes = array(
 
 
 include('../config/routes.php');
-$routes->execute('/test');
+// $routes->execute('/test');

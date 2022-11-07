@@ -1,5 +1,7 @@
 <?php
 
+// en teoria debe abrir el mensaje "hello from test"
+
 class TestController extends ApplicationController{
 	
 	public function indexAction()
