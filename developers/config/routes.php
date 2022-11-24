@@ -12,5 +12,8 @@
 $routes = array(
 	'/test' => 'test#index',
 	'/test2' => 'test2#index',
-	'/user' => 'user#index'
+	'/check' => 'test#check',
+	'/user' => 'user#index',
+	'/user/add' => 'user#add'
+	// 'users/id' => 'user#showById'
 );
