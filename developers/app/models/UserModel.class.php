@@ -4,31 +4,32 @@ class UserModel {
 
     // ATRIBUTS
     private $_jsonFile = "../db/users.json"; 
-    private array $_fields=[
+    public $_fields = array(
         // 'id_user' => '0',
         'strCreatedAt' => '',
         'strName' => '',
         'strRol'  => "",
         'deleted' => '0'
-    ];
+    );
+
     // utilizar una función existente que ya lo convierte en un Array asociativo automáticamente
     
-    private int $_id_User = 0;
-    private string $_strCreatedAt = "";
-    private string $_strName = "";
-    private string $_strRol = "";
-    private int $_deleted = 0;
+    // private int $_id_User = 0;
+    // private string $_strCreatedAt = "";
+    // private string $_strName = "";
+    // private string $_strRol = "";
+    // private int $_deleted = 0;
 
     // CONSTRUCTOR  - no tengo claro si hacer count($_arrUsers) desde el Controller y pasarle el argumento id+1 
     public function __construct($path_json_file){
         $this->_jsonFile = $pathJsonFile;
-        $this->_fields=[
+        $this->_fields=array(
             // 'id_user' => getMaxId(),
             'strCreatedAt' => date("Y-m-d H:i:s"),
             'strName' => '',
             'strRol'  => '',
             'deleted' => '0'
-        ];
+        );
         
         // $this->_id_User = $id;
         // $this->_strCreatedAt = date("Y-m-d H:i:s");  // formato "2022-12-31 15:30:54"
@@ -42,13 +43,16 @@ class UserModel {
         return $this->_arrFields;
     }
 
-    private function setFields($arrfields){        
+    private function setFields($arrFields){    
+        if ($arrFields[0]==0) {
+            $arrFields[0] = getMaxId();
+        }
         $data = [
-            $id_User = $arrfields[0],
+            $id_User = $arrFields[0],
             $strCreatedAt = date("Y-m-d H:i:s"),  // formato "2022-12-31 15:30:54"
-            $strName = $arrfields[1],
-            $strRol = $fiarrfieldselds[2],           
-            $deleted = $arrfields[3],
+            $strName = $arrFields[1],
+            $strRol = $arrFields[2],           
+            $deleted = $arrFields[3],
         ];
         array_push($this->_arrFields,$data);
     }
@@ -104,6 +108,7 @@ class UserModel {
    		//     echo "El valor de $clave es: $valor";
    		// }        
     }
+
     // implementamos aquí el MOSTRAR
     public function show($system,$table, $id){
 
@@ -166,17 +171,18 @@ class UserModel {
         
     }
 
-    // implementamos aquí el SAVE a MySql:
+    // implementamos aquí el SAVE a JSON y MySql:
     public function save($system,$table,$id,$newData){
 
         switch ($system){
-            case 'json':
+            case 'json':                
                 $jsnUsers = file_get_contents($this->jsonFile);
                 $arrUsers = json_decode($jsnUsers, true);                
 
                 if ($id==0){
                     if (!empty($arrUsers)){
-
+                        $append = $this->getMaxId();
+                        setId($append);
                         array_push($arrUsers, $newData);
                     }else{
                         $arrUsers[] = $newData;
